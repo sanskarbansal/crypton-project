@@ -1,7 +1,23 @@
+import axios from "axios";
 import "./App.css";
+import CreateTodoForm from "./components/CreateTodoForm";
 
 function App() {
-    return <div className="App">Init Project</div>;
+    const handleSubmit = (data) => {
+        axios
+            .post("/todos", {
+                ...data,
+                isCompleted: false,
+            })
+            .then(({ data }) => {
+                console.log(data);
+            });
+    };
+    return (
+        <div className="App">
+            <CreateTodoForm handleSubmit={handleSubmit} />
+        </div>
+    );
 }
 
 export default App;

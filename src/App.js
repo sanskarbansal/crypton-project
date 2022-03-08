@@ -6,14 +6,14 @@ import "./App.css";
 import CreateTodoForm from "./components/CreateTodoForm";
 import TodoList from "./components/TodoList";
 
+const getUrl = (endpoint) => `https://my-json-server.typicode.com/sanskarbansal/crypton-project${endpoint}`;
+
 const theme = createTheme({
     palette: {
         primary: {
-            // Purple and green play nicely together.
             main: "#003979",
         },
         secondary: {
-            // This is green.A700 as hex.
             main: "#D60707",
         },
     },
@@ -22,14 +22,14 @@ const theme = createTheme({
 function App() {
     const [todos, setTodos] = useState([]);
     useEffect(() => {
-        axios.get("/todos?isCompleted=false").then(({ data }) => {
+        axios.get(getUrl("/todos?isCompleted=false")).then(({ data }) => {
             setTodos(data);
         });
     }, []);
 
     const handleSubmit = (data) => {
         axios
-            .post("/todos", {
+            .post(getUrl("/todos"), {
                 ...data,
                 isCompleted: false,
             })
@@ -38,13 +38,13 @@ function App() {
             });
     };
     const deleteTodo = (todoId) => {
-        axios.delete(`/todos/${todoId}`).then((resp) => {
+        axios.delete(getUrl(`/todos/${todoId}`)).then((resp) => {
             setTodos(todos.filter(({ id }) => todoId !== id));
         });
     };
     const completeTodo = (todoId) => {
         axios
-            .patch(`/todos/${todoId}`, {
+            .patch(getUrl(`/todos/${todoId}`), {
                 isCompleted: true,
             })
             .then(({ data }) => {
